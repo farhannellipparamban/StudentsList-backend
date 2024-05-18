@@ -16,11 +16,11 @@ const StudentsSchema = new mongoose.Schema(
     },
     enrollNo: {
       type: String,
-      // required:true,
+      required:true,
     },
     doAdmission: {
       type: String,
-      // required:true,
+      required:true,
     },
   },
   {
