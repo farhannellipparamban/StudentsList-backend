@@ -7,6 +7,7 @@ import router from "./routes/studentRoute";
 dotenv.config();
 dbConnect();
 
+const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.json());
 
@@ -20,6 +21,6 @@ app.use(
 
 app.use("/", router);
 
-app.listen(4000, () => {
-  console.log("server running successfully in port 4000");
+app.listen(PORT, () => {
+  console.log(`server running successfully in port ${PORT}`);
 });

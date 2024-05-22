@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Define the schema for the Students collection
 const StudentsSchema = new mongoose.Schema(
   {
     name: {

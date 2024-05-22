@@ -5,6 +5,7 @@ dotenv.config();
 
 const MONGO_URL: string = process.env.MONGO_URL || " ";
 
+// Function to connect to the MongoDB database
 const dbConnect = async () => {
   try {
     await mongoose.connect(MONGO_URL);

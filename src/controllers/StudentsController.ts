@@ -3,15 +3,18 @@ import { Request, Response } from "express";
 import studentsModel from "../model/studentsModel";
 
 class StudentController {
+  // Controller for fetching all students
   getAllStudents = async (req: Request, res: Response) => {
     try {
       const students = await studentsModel.find();
       return res.status(200).json({ data: students });
     } catch (error) {
-      return res.sendStatus(400);
+      console.error("An error occurred while updating student details:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
+  // Controller for adding a new student
   addStudents = async (req: Request, res: Response) => {
     try {
       const { name, email, mobile, enrollNo, doAdmission } = req.body;
@@ -23,12 +26,16 @@ class StudentController {
         doAdmission,
       });
       await student.save();
-      return res.status(201).json({ message: "Student Added", data: student });
+      return res
+        .status(201)
+        .json({ message: "Student added successfully", data: student });
     } catch (error) {
-      return res.sendStatus(400);
+      console.error("An error occurred while adding student :", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
+  // Controller for updating an existing student
   updateStudent = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -41,24 +48,30 @@ class StudentController {
         student.enrollNo = enrollNo;
         student.doAdmission = doAdmission;
         await student.save();
-        return res
-          .status(200)
-          .json({ message: "Student Updated", data: student });
+        return res.status(200).json({
+          message: "Student details successfully updated",
+          data: student,
+        });
       } else {
-        return res.status(404).json({ message: "Student not found" });
+        return res
+          .status(404)
+          .json({ message: "Student not found. Unable to update details." });
       }
     } catch (error) {
-      return res.status(400).json({ message: "Error updating student", error });
+      console.error("An error occurred while updating student details:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
+  // Controller for deleting an existing student
   deleteStudent = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       await studentsModel.findByIdAndDelete({ _id: id });
-      return res.status(200).json({ message: "Student Deleted" });
+      return res.status(200).json({ message: "Student successfully deleted" });
     } catch (error) {
-      return res.sendStatus(400);
+      console.error("An error occurred while deleting student :", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   };
 }
